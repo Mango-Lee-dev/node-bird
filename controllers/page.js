@@ -1,4 +1,5 @@
 exports.renderProfile = (req, res, next) => {
+  //  서비스를 호출
   res.render("profile", { title: "내 정보 - NodeBird" });
 };
 
