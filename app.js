@@ -1,5 +1,6 @@
 const express = require("express");
 const cookieParser = require("cookie-parser");
+const db = require("./models");
 const morgan = require("morgan");
 const path = require("path");
 const session = require("express-session");
@@ -15,6 +16,10 @@ app.set("view engine", "html");
 nunjucks.configure("views", {
   express: app,
   watch: true,
+});
+
+db.sequelize.sync({ force: false }).then(() => {
+  console.log("데이터베이스 연결 성공");
 });
 
 app.use(morgan("dev"));
