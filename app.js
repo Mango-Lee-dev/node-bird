@@ -6,9 +6,12 @@ const path = require("path");
 const session = require("express-session");
 const nunjucks = require("nunjucks");
 const dotenv = require("dotenv");
+const passport = require("passport");
 
-dotenv.config(); //  process.env
+dotenv.config();
 const pageRouter = require("./routes/page");
+const authRouter = require("./routes/auth");
+const passportConfig = require("./passport");
 
 const app = express();
 app.set("port", process.env.PORT || 8001);
@@ -38,8 +41,12 @@ app.use(
     },
   })
 );
+app.use(passport.initialize()); // req.user, req.login, req.logout 사용 가능
+app.use(passport.session());
 
 app.use("/", pageRouter);
+app.use("/auth", authRouter);
+
 app.use((req, res, next) => {
   const error = new Error(`${req.method} ${req.url} 라우터가 없습니다.`);
   error.status = 404;
