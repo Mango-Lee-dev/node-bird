@@ -25,6 +25,8 @@ db.sequelize.sync({ force: false }).then(() => {
   console.log("데이터베이스 연결 성공");
 });
 
+passportConfig(); // passport strategy 등록
+
 app.use(morgan("dev"));
 app.use(express.static(path.join(__dirname, "public")));
 app.use(express.json());

@@ -1,3 +1,4 @@
+const passport = require("passport");
 const User = require("../models/user");
 const bcrypt = require("bcrypt");
 
@@ -21,7 +22,37 @@ exports.join = async (req, res, next) => {
     return next(error);
   }
 };
+/**
+ * POST /auth/login
+ * req.body.email, req.body.password
+ *
+ *
+ */
+exports.login = (req, res, next) => {
+  passport.authenticate("local", (authError, user, info) => {
+    if (authError) {
+      // => 서버실패
+      console.error(authError);
+      return next(authError);
+    }
+    if (!user) {
+      // => 로직실패
+      return res.redirect(`/?loginError=${encodeURIComponent(info.message)}`);
+    }
 
-exports.login = () => {};
+    return req.login(user, (loginError) => {
+      // => 로그인 성공
+      if (loginError) {
+        console.error(loginError);
+        return next(loginError);
+      }
+      return res.redirect("/");
+    });
+  })(req, res, next);
+};
 
-exports.logout = () => {};
+exports.logout = (req, res, next) => {
+  req.logout(() => {
+    res.redirect("/");
+  });
+};
