@@ -5,6 +5,22 @@ exports.follow = async (req, res, next) => {
     const user = await User.findOne({ where: { id: req.user.id } });
     if (user) {
       await user.addFollowings(parseInt(req.params.id, 10));
+      res.send("ok");
+    } else {
+      return res.status(404).send("no user");
+    }
+  } catch (error) {
+    console.error(error);
+    next(error);
+  }
+};
+
+exports.unfollow = async (req, res, next) => {
+  try {
+    const user = await User.findOne({ where: { id: req.user.id } });
+    if (user) {
+      await user.removeFollowings(parseInt(req.params.id, 10));
+      res.send("ok");
     } else {
       return res.status(404).send("no user");
     }

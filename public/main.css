@@ -301,6 +301,19 @@ body {
   transform: scale(1.05);
 }
 
+.twit-unfollow {
+  padding: 6px 15px;
+  background: #f093fb;
+  color: white;
+  border: none;
+  border-radius: 20px;
+}
+
+.twit-unfollow:hover {
+  background: #f5576c;
+  transform: scale(1.05);
+}
+
 .twit-content {
   font-size: 15px;
   color: #333;
